@@ -29,13 +29,13 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     resource_group_name = "${azurerm_resource_group.k8s.name}"
     dns_prefix          = "${var.dns_prefix}"
 
-    linux_profile {
-        admin_username = "ubuntu"
-
-        ssh_key {
-            key_data = "${file("${var.ssh_public_key}")}"
-        }
-    }
+    //linux_profile {
+    //    admin_username = "ubuntu"
+    //
+    //    ssh_key {
+    //        key_data = "${file("${var.ssh_public_key}")}"
+    //    }
+    //}
 
     agent_pool_profile {
         name            = "agentpool"
@@ -57,7 +57,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         }
     }
 
-    tags {
+    tags = {
         Environment = "Development"
     }
 }
