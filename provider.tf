@@ -1,5 +1,8 @@
+variable "client_secret" {}
+
 provider "azurerm" {
     version = "~>1.5"
+    client_secret = "${var.client_secret}"
 }
 
 terraform {
