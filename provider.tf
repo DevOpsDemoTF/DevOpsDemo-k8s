@@ -13,6 +13,16 @@ provider "kubernetes" {
     cluster_ca_certificate = base64decode(module.exposed_cluster.cluster_ca_certificate)
 }
 
+provider "helm" {
+    kubernetes {
+        host = module.exposed_cluster.host
+
+        client_certificate     = base64decode(module.exposed_cluster.client_certificate)
+        client_key             = base64decode(module.exposed_cluster.client_key)
+        cluster_ca_certificate = base64decode(module.exposed_cluster.cluster_ca_certificate)
+    }
+}
+
 terraform {
     backend "azurerm" {
         resource_group_name  = "terraform"
