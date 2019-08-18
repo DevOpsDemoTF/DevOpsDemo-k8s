@@ -1,33 +1,24 @@
-variable "client_secret" {}
-
 provider "azurerm" {
-    version = "~>1.5"
-    client_secret = var.client_secret
+  version = "~>1.5"
 }
 
 provider "kubernetes" {
-    host = module.exposed_cluster.host
+  host = azurerm_kubernetes_cluster.k8s.kube_config.0.host
 
-    client_certificate     = base64decode(module.exposed_cluster.client_certificate)
-    client_key             = base64decode(module.exposed_cluster.client_key)
-    cluster_ca_certificate = base64decode(module.exposed_cluster.cluster_ca_certificate)
+  client_certificate = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate)
+  client_key = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_key)
+  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate)
 }
 
 provider "helm" {
-    kubernetes {
-        host = module.exposed_cluster.host
+  namespace = kubernetes_service_account.tiller.metadata.0.namespace
+  service_account = kubernetes_service_account.tiller.metadata.0.name
 
-        client_certificate     = base64decode(module.exposed_cluster.client_certificate)
-        client_key             = base64decode(module.exposed_cluster.client_key)
-        cluster_ca_certificate = base64decode(module.exposed_cluster.cluster_ca_certificate)
-    }
-}
+  kubernetes {
+    host = azurerm_kubernetes_cluster.k8s.kube_config.0.host
 
-terraform {
-    backend "azurerm" {
-        resource_group_name  = "terraform"
-        storage_account_name = "adamszalkowskiterraform"
-        container_name       = "terraform-state"
-        key                  = "prod.terraform.tfstate"
-    }
+    client_certificate = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate)
+    client_key = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_key)
+    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate)
+  }
 }
