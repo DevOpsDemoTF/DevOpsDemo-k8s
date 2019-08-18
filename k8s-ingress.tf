@@ -7,6 +7,7 @@ resource "kubernetes_namespace" "ingress" {
 resource "azurerm_public_ip" "ingress" {
   name = local.cname
   resource_group_name = azurerm_kubernetes_cluster.k8s.node_resource_group
+  domain_name_label = local.cname
   allocation_method = "Static"
   location = var.location
 }

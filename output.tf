@@ -21,3 +21,7 @@ output "k8s_config" {
 output "k8s_host" {
   value = azurerm_kubernetes_cluster.k8s.kube_config.0.host
 }
+
+output "k8s_dashboard_url" {
+  value = "https://${azurerm_public_ip.ingress.fqdn}/"
+}
