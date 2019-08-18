@@ -1,9 +1,19 @@
 resource "azuread_application" "oauth" {
   name = "${local.CName} Dashboard"
+  type = "webapp/api"
   available_to_other_tenants = false
   homepage = "https://${azurerm_public_ip.ingress.fqdn}/"
   reply_urls = [
-    "https://${azurerm_public_ip.ingress.fqdn}/oauth2/callback"]
+    "https://${azurerm_public_ip.ingress.fqdn}/oauth2/callback"
+  ]
+
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000"
+    resource_access {
+      id = "e1fe6dd8-ba31-4d61-89e7-88639da4683d"
+      type = "Scope"
+    }
+  }
 }
 
 resource "azuread_application_password" "oauth" {
@@ -27,6 +37,8 @@ resource "random_string" "oauth_proxy_client_secret" {
   length = 32
 }
 
+data "azurerm_client_config" "current" {}
+
 # docker run -ti --rm python:3-alpine python -c 'import secrets,base64; print(base64.b64encode(base64.b64encode(secrets.token_bytes(16))));'
 resource "kubernetes_secret" "oauth_proxy" {
   metadata {
@@ -38,6 +50,7 @@ resource "kubernetes_secret" "oauth_proxy" {
     "OAUTH2_PROXY_CLIENT_ID" = azuread_application.oauth.application_id
     "OAUTH2_PROXY_CLIENT_SECRET" = azuread_application_password.oauth.value
     "OAUTH2_PROXY_COOKIE_SECRET" = random_string.oauth_proxy_client_secret.result
+    "OAUTH2_PROXY_AZURE_TENANT" = data.azurerm_client_config.current.tenant_id
   }
 }
 

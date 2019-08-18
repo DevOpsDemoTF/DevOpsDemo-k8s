@@ -54,15 +54,6 @@ resource "kubernetes_cluster_role" "dashboard" {
 
   rule {
     api_groups = [
-      ""]
-    resources = [
-      "secrets"]
-    verbs = [
-      "list"]
-  }
-
-  rule {
-    api_groups = [
       "apiextensions.k8s.io"]
     resources = [
       "customresourcedefinitions"]
