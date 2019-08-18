@@ -48,10 +48,13 @@ resource "helm_release" "nginx_ingress" {
     name = "controller.service.loadBalancerIP"
     value = azurerm_public_ip.ingress.ip_address
   }
+
+  depends_on = [
+    kubernetes_cluster_role_binding.tiller]
 }
 
 data "template_file" "certmgr_provider" {
-  template = file("${path.module}/letsencrypt-staging.yaml.tpl")
+  template = file("${path.module}/templates/letsencrypt-staging.yaml.tpl")
   vars = {
     email = var.letsencrypt_email
   }
@@ -59,7 +62,7 @@ data "template_file" "certmgr_provider" {
 
 resource "local_file" "kube_config" {
   sensitive_content = azurerm_kubernetes_cluster.k8s.kube_config_raw
-  filename = "${path.module}/kube_config"
+  filename = "${path.module}/.generated/kube_config"
 }
 
 variable "certmgr_version" {
@@ -68,7 +71,7 @@ variable "certmgr_version" {
 
 resource "local_file" "certmgr_provider_spec" {
   content = data.template_file.certmgr_provider.rendered
-  filename = "${path.module}/letsencrypt-staging.yaml"
+  filename = "${path.module}/.generated/letsencrypt-staging.yaml"
 }
 
 resource "kubernetes_namespace" "cert_manager" {
@@ -112,4 +115,7 @@ resource "helm_release" "cert_manager" {
     name = "ingressShim.defaultIssuerKind"
     value = "ClusterIssuer"
   }
+
+  depends_on = [
+    kubernetes_cluster_role_binding.tiller]
 }
