@@ -27,215 +27,101 @@ resource "kubernetes_cluster_role" "dashboard" {
   }
 
   rule {
-    api_groups = [
-      ""]
-    resources = [
-      "bindings",
-      "componentstatuses",
-      "configmaps",
-      "endpoints",
-      "events",
-      "limitranges",
-      "namespaces",
-      "nodes",
-      "persistentvolumeclaims",
-      "persistentvolumes",
-      "pods",
-      "podtemplates",
-      "replicationcontrollers",
-      "resourcequotas",
-      "serviceaccounts",
-      "services"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = [""]
+    resources  = ["bindings", "componentstatuses", "configmaps", "endpoints", "events", "limitranges", "namespaces",
+      "nodes", "persistentvolumeclaims", "persistentvolumes", "pods", "podtemplates", "replicationcontrollers",
+      "resourcequotas", "serviceaccounts", "services"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "apiextensions.k8s.io"]
-    resources = [
-      "customresourcedefinitions"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["apiextensions.k8s.io"]
+    resources  = ["customresourcedefinitions"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "apps"]
-    resources = [
-      "controllerrevisions",
-      "daemonsets",
-      "deployments",
-      "replicasets",
-      "statefulsets"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["apps"]
+    resources  = ["controllerrevisions", "daemonsets", "deployments", "replicasets", "statefulsets"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "autoscaling"]
-    resources = [
-      "horizontalpodautoscalers"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["autoscaling"]
+    resources  = ["horizontalpodautoscalers"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "batch"]
-    resources = [
-      "cronjobs",
-      "jobs"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["batch"]
+    resources  = ["cronjobs", "jobs"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "certificates.k8s.io"]
-    resources = [
-      "certificatesigningrequests"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["certificates.k8s.io"]
+    resources  = ["certificatesigningrequests"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "certmanager.k8s.io"]
-    resources = [
-      "certificaterequests",
-      "certificates",
-      "challenges",
-      "clusterissuers",
-      "issuers",
-      "orders"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["certmanager.k8s.io"]
+    resources  = ["certificaterequests", "certificates", "challenges", "clusterissuers", "issuers", "orders"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "coordination.k8s.io"]
-    resources = [
-      "leases"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["coordination.k8s.io"]
+    resources  = ["leases"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "events.k8s.io"]
-    resources = [
-      "events"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["events.k8s.io"]
+    resources  = ["events"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "extensions"]
-    resources = [
-      "daemonsets",
-      "deployments",
-      "ingresses",
-      "networkpolicies",
-      "podsecuritypolicies",
-      "replicasets"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["extensions"]
+    resources  = ["daemonsets", "deployments", "ingresses", "networkpolicies", "podsecuritypolicies", "replicasets"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "metrics.k8s.io"]
-    resources = [
-      "nodes",
-      "pods"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["metrics.k8s.io"]
+    resources  = ["nodes", "pods"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "networking.k8s.io"]
-    resources = [
-      "networkpolicies"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["networking.k8s.io"]
+    resources  = ["networkpolicies"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "policy"]
-    resources = [
-      "poddisruptionbudgets",
-      "podsecuritypolicies"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["policy"]
+    resources  = ["poddisruptionbudgets", "podsecuritypolicies"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "rbac.authorization.k8s.io"]
-    resources = [
-      "clusterrolebindings",
-      "clusterroles",
-      "rolebindings",
-      "roles"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["rbac.authorization.k8s.io"]
+    resources  = ["clusterrolebindings", "clusterroles", "rolebindings", "roles"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "scheduling.k8s.io"]
-    resources = [
-      "priorityclasses"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["scheduling.k8s.io"]
+    resources  = ["priorityclasses"]
+    verbs      = ["get", "list", "watch"]
   }
 
   rule {
-    api_groups = [
-      "storage.k8s.io"]
-    resources = [
-      "storageclasses",
-      "volumeattachments"]
-    verbs = [
-      "get",
-      "list",
-      "watch"]
+    api_groups = ["storage.k8s.io"]
+    resources  = ["storageclasses", "volumeattachments"]
+    verbs      = ["get", "list", "watch"]
   }
 }
 
@@ -246,36 +132,35 @@ resource "kubernetes_cluster_role_binding" "dashboard" {
 
   subject {
     api_group = ""
-    kind = "ServiceAccount"
-    name = "kubernetes-dashboard"
+    kind      = "ServiceAccount"
+    name      = "kubernetes-dashboard"
     namespace = "kube-system"
   }
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
-    kind = "ClusterRole"
-    name = kubernetes_cluster_role.dashboard.metadata.0.name
+    kind      = "ClusterRole"
+    name      = kubernetes_cluster_role.dashboard.metadata.0.name
   }
 }
 
 resource "kubernetes_ingress" "dashboard" {
   metadata {
-    name = "dashboard"
+    name      = "dashboard"
     namespace = "kube-system"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
-      "kubernetes.io/tls-acme" = "true"
+      "kubernetes.io/ingress.class"                = "nginx"
+      "kubernetes.io/tls-acme"                     = "true"
       "nginx.ingress.kubernetes.io/rewrite-target" = "/"
-      "nginx.ingress.kubernetes.io/auth-url" = "https://$host/oauth2/auth"
-      "nginx.ingress.kubernetes.io/auth-signin" = "https://$host/oauth2/start?rd=$request_uri"
+      "nginx.ingress.kubernetes.io/auth-url"       = "https://$host/oauth2/auth"
+      "nginx.ingress.kubernetes.io/auth-signin"    = "https://$host/oauth2/start?rd=$request_uri"
     }
   }
 
   spec {
     tls {
-      hosts = [
-        azurerm_public_ip.ingress.fqdn]
+      hosts       = [azurerm_public_ip.ingress.fqdn]
       secret_name = "kubernetes-dashboard-tls"
     }
 

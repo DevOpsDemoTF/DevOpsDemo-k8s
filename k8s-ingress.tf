@@ -5,66 +5,65 @@ resource "kubernetes_namespace" "ingress" {
 }
 
 resource "azurerm_public_ip" "ingress" {
-  name = local.cname
+  name                = local.cname
   resource_group_name = azurerm_kubernetes_cluster.k8s.node_resource_group
-  domain_name_label = local.cname
-  allocation_method = "Static"
-  location = var.location
+  domain_name_label   = local.cname
+  allocation_method   = "Static"
+  location            = var.location
 }
 
 resource "helm_release" "nginx_ingress" {
-  name = "nginx-ingress"
-  chart = "stable/nginx-ingress"
-  namespace = kubernetes_namespace.ingress.metadata.0.name
-  force_update = "true"
+  name          = "nginx-ingress"
+  chart         = "stable/nginx-ingress"
+  namespace     = kubernetes_namespace.ingress.metadata.0.name
+  force_update  = "true"
   recreate_pods = "true"
 
   timeout = 600
 
   set {
-    name = "controller.replicaCount"
+    name  = "controller.replicaCount"
     value = "3"
   }
 
   set {
-    name = "controller.nodeSelector.beta\\.kubernetes\\.io/os"
+    name  = "controller.nodeSelector.beta\\.kubernetes\\.io/os"
     value = "linux"
   }
 
   set {
-    name = "defaultBackend.nodeSelector.beta\\.kubernetes\\.io/os"
+    name  = "defaultBackend.nodeSelector.beta\\.kubernetes\\.io/os"
     value = "linux"
   }
 
   set {
-    name = "rbac.create"
+    name  = "rbac.create"
     value = "true"
   }
 
   set {
-    name = "controller.service.externalTrafficPolicy"
+    name  = "controller.service.externalTrafficPolicy"
     value = "Local"
   }
 
   set {
-    name = "controller.service.loadBalancerIP"
+    name  = "controller.service.loadBalancerIP"
     value = azurerm_public_ip.ingress.ip_address
   }
 
-  depends_on = [
-    kubernetes_cluster_role_binding.tiller]
+  depends_on = [kubernetes_cluster_role_binding.tiller]
 }
 
 data "template_file" "certmgr_provider" {
   template = file("${path.module}/templates/letsencrypt-staging.yaml.tpl")
-  vars = {
+  vars     = {
     email = var.letsencrypt_email
   }
 }
 
 resource "local_file" "kube_config" {
   sensitive_content = azurerm_kubernetes_cluster.k8s.kube_config_raw
-  filename = "${path.module}/.generated/kube_config"
+  filename          = "${path.module}/.generated/kube_config"
 }
 
 variable "certmgr_version" {
@@ -72,13 +71,13 @@ variable "certmgr_version" {
 }
 
 resource "local_file" "certmgr_provider_spec" {
-  content = data.template_file.certmgr_provider.rendered
+  content  = data.template_file.certmgr_provider.rendered
   filename = "${path.module}/.generated/letsencrypt-staging.yaml"
 }
 
 resource "kubernetes_namespace" "cert_manager" {
   metadata {
-    name = "cert-manager"
+    name   = "cert-manager"
     labels = {
       "certmanager.k8s.io/disable-validation" = "true"
     }
@@ -95,30 +94,29 @@ resource "kubernetes_namespace" "cert_manager" {
 
 data "helm_repository" "jetstack" {
   name = "jetstack"
-  url = "https://charts.jetstack.io"
+  url  = "https://charts.jetstack.io"
 }
 
 resource "helm_release" "cert_manager" {
-  name = "cert-manager"
-  repository = data.helm_repository.jetstack.metadata.0.name
-  chart = "jetstack/cert-manager"
-  namespace = kubernetes_namespace.cert_manager.metadata.0.name
-  version = var.certmgr_version
-  force_update = "true"
+  name          = "cert-manager"
+  repository    = data.helm_repository.jetstack.metadata.0.name
+  chart         = "jetstack/cert-manager"
+  namespace     = kubernetes_namespace.cert_manager.metadata.0.name
+  version       = var.certmgr_version
+  force_update  = "true"
   recreate_pods = "true"
 
   timeout = 600
 
   set {
-    name = "ingressShim.defaultIssuerName"
+    name  = "ingressShim.defaultIssuerName"
     value = "letsencrypt-staging"
   }
 
   set {
-    name = "ingressShim.defaultIssuerKind"
+    name  = "ingressShim.defaultIssuerKind"
     value = "ClusterIssuer"
   }
 
-  depends_on = [
-    kubernetes_cluster_role_binding.tiller]
+  depends_on = [kubernetes_cluster_role_binding.tiller]
 }
