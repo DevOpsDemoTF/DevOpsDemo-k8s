@@ -6,7 +6,7 @@ resource "kubernetes_namespace" "ingress" {
 
 resource "azurerm_public_ip" "ingress" {
   name = local.cname
-  resource_group_name = azurerm_resource_group.k8s.name
+  resource_group_name = azurerm_kubernetes_cluster.k8s.node_resource_group
   allocation_method = "Static"
   location = var.location
 }
@@ -16,8 +16,9 @@ resource "helm_release" "nginx_ingress" {
   chart = "stable/nginx-ingress"
   namespace = kubernetes_namespace.ingress.metadata.0.name
   force_update = "true"
+  recreate_pods = "true"
 
-  timeout = 1200
+  timeout = 600
 
   set {
     name = "controller.replicaCount"
@@ -103,6 +104,7 @@ resource "helm_release" "cert_manager" {
   namespace = kubernetes_namespace.cert_manager.metadata.0.name
   version = var.certmgr_version
   force_update = "true"
+  recreate_pods = "true"
 
   timeout = 600
 
