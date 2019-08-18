@@ -57,3 +57,17 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     Environment = var.environment
   }
 }
+
+resource "kubernetes_config_map" "metrics" {
+  metadata {
+    name = "container-azm-ms-agentconfig"
+    namespace = "kube-system"
+  }
+
+  data = {
+    "schema-version" = "v1"
+    "config-version" = "ver1"
+    "log-data-collection-setting" = file("${path.module}/templates/log-data-collection-settings.cfg")
+    "prometheus-data-collection-setting" = file("${path.module}/templates/prometheus-data-collection-settings.cfg")
+  }
+}

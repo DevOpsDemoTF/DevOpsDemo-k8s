@@ -3,4 +3,5 @@
 * https://docs.microsoft.com/en-us/azure/terraform/terraform-create-k8s-cluster-with-tf-and-aks
 * https://docs.microsoft.com/en-us/azure/aks/ingress-tls
 * https://docs.microsoft.com/en-us/azure/aks/ingress-static-ip
+* https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-agent-config
 
