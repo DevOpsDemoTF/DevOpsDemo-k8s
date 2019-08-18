@@ -1,4 +1,6 @@
 .terraform/
+.idea/
+.vscode/
 terraform.tfstate*
 terraform.tfvars
 backend.tf
