@@ -55,7 +55,7 @@ resource "helm_release" "nginx_ingress" {
 }
 
 data "template_file" "certmgr_provider" {
-  template = file("${path.module}/templates/letsencrypt-staging.yaml.tpl")
+  template = file("${path.module}/templates/letsencrypt-staging.yaml")
   vars     = {
     email = var.letsencrypt_email
   }

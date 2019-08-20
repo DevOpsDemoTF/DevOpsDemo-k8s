@@ -1,5 +1,5 @@
 resource "azuread_application" "k8s" {
-  name = "${local.CName} Kubernetes"
+  name = local.CName
 }
 
 resource "azuread_service_principal" "k8s" {

@@ -3,7 +3,7 @@ variable "k8s_agent_count" {
 }
 
 variable "k8s_agent_size" {
-  default = "Standard_D1_v2"
+  default = "Standard_E2s_v3"
 }
 
 variable prefix {
