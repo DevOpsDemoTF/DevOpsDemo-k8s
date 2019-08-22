@@ -26,6 +26,10 @@ output "k8s_fqdn" {
   value = azurerm_public_ip.ingress.fqdn
 }
 
+output "k8s_service_principal" {
+  value = azuread_service_principal.k8s.object_id
+}
+
 output "tiller_name" {
   value = kubernetes_service_account.tiller.metadata.0.name
 }
