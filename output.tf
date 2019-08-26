@@ -11,7 +11,7 @@ output "login" {
 output "helm" {
   value = {
     tiller_name      = kubernetes_service_account.tiller.metadata.0.name
-    tiller_namespace = "kube_system"
+    tiller_namespace = "kube-system"
   }
 }
 
