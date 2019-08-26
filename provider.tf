@@ -1,11 +1,3 @@
-provider "azurerm" {
-  version = "~>1.33"
-}
-
-provider "azuread" {
-  version = "~>0.3"
-}
-
 provider "kubernetes" {
   version = "~>1.8"
   host    = azurerm_kubernetes_cluster.k8s.kube_config.0.host
@@ -27,16 +19,4 @@ provider "helm" {
     client_key             = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_key)
     cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate)
   }
-}
-
-provider "local" {
-  version = "~>1.3"
-}
-
-provider "random" {
-  version = "~>2.2"
-}
-
-provider "template" {
-  version = "~>2.1"
 }

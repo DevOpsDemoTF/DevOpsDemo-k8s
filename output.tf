@@ -1,43 +1,33 @@
-output "k8s_client_key" {
-  value     = azurerm_kubernetes_cluster.k8s.kube_config.0.client_key
+output "login" {
+  value     = {
+    host                   = azurerm_kubernetes_cluster.k8s.kube_config.0.host
+    client_key             = azurerm_kubernetes_cluster.k8s.kube_config.0.client_key
+    client_certificate     = azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate
+    cluster_ca_certificate = azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate
+  }
   sensitive = true
 }
 
-output "k8s_client_certificate" {
-  value     = azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate
-  sensitive = true
+output "helm" {
+  value = {
+    tiller_name      = kubernetes_service_account.tiller.metadata.0.name
+    tiller_namespace = "kube_system"
+  }
 }
 
-output "k8s_cluster_ca_certificate" {
-  value     = azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate
-  sensitive = true
-}
-
-output "k8s_config" {
-  value     = azurerm_kubernetes_cluster.k8s.kube_config_raw
-  sensitive = true
-}
-
-output "k8s_host" {
-  value = azurerm_kubernetes_cluster.k8s.kube_config.0.host
-}
-
-output "k8s_fqdn" {
+output "fqdn" {
   value = azurerm_public_ip.ingress.fqdn
 }
 
-output "k8s_service_principal" {
-  value = azuread_service_principal.k8s.object_id
-}
-
-output "tiller_name" {
-  value = kubernetes_service_account.tiller.metadata.0.name
-}
-
-output "tiller_namespace" {
-  value = "kube-system"
-}
-
-output "k8s_dashboard_url" {
+output "dashboard_url" {
   value = "https://${azurerm_public_ip.ingress.fqdn}/"
+}
+
+output "environment" {
+  value     = {
+    name      = var.environment
+    principal = azuread_service_principal.k8s.object_id
+    kube_conf = azurerm_kubernetes_cluster.k8s.kube_config_raw
+  }
+  sensitive = true
 }
