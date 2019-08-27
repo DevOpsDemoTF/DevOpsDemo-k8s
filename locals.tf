@@ -1,4 +1,4 @@
 locals {
-  CName = "${var.prefix}${var.environment}Kubernetes"
-  cname = lower("${var.prefix}${var.environment}kubernetes")
+  CName = "${var.prefix}${var.environment}"
+  cname = lower("${var.prefix}${var.environment}")
 }
