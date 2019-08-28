@@ -28,6 +28,7 @@ output "environment" {
     name      = var.environment
     principal = azuread_service_principal.k8s.object_id
     kube_conf = azurerm_kubernetes_cluster.k8s.kube_config_raw
+    context   = azurerm_kubernetes_cluster.k8s.name
   }
   sensitive = true
 }
