@@ -3,6 +3,8 @@ resource "kubernetes_service_account" "tiller" {
     name      = "tiller"
     namespace = "kube-system"
   }
+
+  depends_on = [azurerm_kubernetes_cluster.k8s]
 }
 
 resource "kubernetes_cluster_role_binding" "tiller" {
@@ -22,4 +24,6 @@ resource "kubernetes_cluster_role_binding" "tiller" {
     name      = kubernetes_service_account.tiller.metadata.0.name
     namespace = kubernetes_service_account.tiller.metadata.0.namespace
   }
+
+  depends_on = [azurerm_kubernetes_cluster.k8s]
 }
