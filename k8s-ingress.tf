@@ -10,6 +10,7 @@ resource "azurerm_public_ip" "ingress" {
   domain_name_label   = local.cname
   allocation_method   = "Static"
   location            = var.location
+  sku                 = "Basic"
 }
 
 resource "helm_release" "nginx_ingress" {
