@@ -1,6 +1,6 @@
 # Azure AKS Kubernetes cluster #
 This Terraform module creates a Kubernetes cluster 
-for use as a deployment environment for my [DevOpsDemo](https://github.com/butzist/DevOpsDemo)
+for use as a deployment environment for my [DevOpsDemo](https://github.com/DevOpsDemoTF/DevOpsDemo)
 
 ### Requirements ###
 * Terraform v0.12+
